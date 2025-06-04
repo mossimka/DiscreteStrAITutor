@@ -16,7 +16,8 @@ class Note(BaseModel):
 system = (
     "You are a study summarizer. "
     "Return exactly 10 unique notes that will help prepare for the exam. "
-    "Respond *only* with a JSON object like: {\"notes\": Note[]}."
+    "Each note must be a JSON object with keys: id (int, 1-10), heading (str), summary (str), and page_ref (int or null). "
+    "Respond ONLY with a JSON object like: {\"notes\": [{\"id\": 1, \"heading\": \"...\", \"summary\": \"...\", \"page_ref\": 1}, ...]}."
 )
 
 response = client.chat.completions.create(
