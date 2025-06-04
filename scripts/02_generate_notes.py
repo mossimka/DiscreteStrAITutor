@@ -25,8 +25,16 @@ response = client.chat.completions.create(
     response_format={"type": "json_object"},
 )
 
-data = response.choices[0].message.content
-notes = [Note(**item) for item in data["notes"]]
+data = json.loads(response.choices[0].message.content)
+print(json.dumps(data, indent=2))
+
+notes = []
+for i, item in enumerate(data["notes"], 1):
+    if isinstance(item, str):
+        notes.append(Note(id=i, heading=f"Note {i}", summary=item))
+    elif isinstance(item, dict):
+        notes.append(Note(**item))
+
 
 for note in notes:
     print(f"{note.id}. {note.heading} (page {note.page_ref})\n  {note.summary}\n")

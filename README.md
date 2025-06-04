@@ -76,4 +76,92 @@ It works but i always see deprication (I think due to the older version function
 📘 Response:
 /home/maxim-sarsekeyev/nfactorial/discStrAi/scripts/01_qna_assistant.py:44: DeprecationWarning: The Assistants API is deprecated in favor of the Responses API
   messages = client.beta.threads.messages.list(thread_id=thread.id)
+``` this version used assistant and threads
+
+if using just response there is no warning and simple warning( which is in older commit)
+
+### How it Works:
+1. **Existence**: The theorem guarantees that there is a number \( x \) that satisfies all the given congruences simultaneously.
+
+2. **Uniqueness**: The solution \( x \) is unique modulo \( N \), where \( N \) is the product of all the moduli.
+
+3. **Finding the Solution**:
+   - Compute \( N_i = N / n_i \) for each \( i \).
+   - Find the multiplicative inverse \( y_i \) of \( N_i \) modulo \( n_i \).
+   - The solution \( x \) can be constructed using the formula:
+     \[
+     x \equiv \sum_{i=1}^k a_i \cdot N_i \cdot y_i \ (\text{mod} \ N)
+     \]
+
+### Example:
+Consider the system of congruences:
+\[ 
+x \equiv 2 \ (\text{mod} \ 3) \\
+x \equiv 3 \ (\text{mod} \ 4) \\
+x \equiv 1 \ (\text{mod} \ 5) 
+\]
+
+To solve, find \( N = 3 \times 4 \times 5 = 60 \). Then compute:
+- \( N_1 = 60 / 3 = 20 \)
+- \( N_2 = 60 / 4 = 15 \)
+- \( N_3 = 60 / 5 = 12 \)
+
+Next, calculate the modular inverses:
+- \( y_1 \equiv 20^{-1} \ (\text{mod} \ 3) \)
+- \( y_2 \equiv 15^{-1} \ (\text{mod} \ 4) \)
+- \( y_3 \equiv 12^{-1} \ (\text{mod} \ 5) \)
+
+Finally, substitute into the formula to find \( x \). This will yield a solution that satisfies all congruences simultaneously.
+
+The Chinese Remainder Theorem is powerful for computations in modular arithmetic, cryptography, and computer science.
+
+
+Part 2: Notes
+```ssh
+❯ python3 scripts/02_generate_notes.py
+
+{
+  "notes": [
+    "Understand the main concepts of the study material for comprehensive coverage.",
+    "Prioritize key terms and their definitions that frequently appear in exams.",
+    "Review past exam papers to identify common question patterns and formats.",
+    "Summarize each chapter into bullet points for quick revision.",
+    "Create flashcards for important dates, formulas, and figures for effective recall.",
+    "Group similar topics together to make connections and enhance retention.",
+    "Practice problem-solving skills with sample problems or exercises from the study guide.",
+    "Utilize mnemonic devices to remember complex information more easily.",
+    "Discuss difficult concepts with peers to gain different perspectives and insights.",
+    "Set a revision schedule that allows for regular review sessions leading up to the exam."
+  ]
+}
+1. Note 1 (page None)
+  Understand the main concepts of the study material for comprehensive coverage.
+
+2. Note 2 (page None)
+  Prioritize key terms and their definitions that frequently appear in exams.
+
+3. Note 3 (page None)
+  Review past exam papers to identify common question patterns and formats.
+
+4. Note 4 (page None)
+  Summarize each chapter into bullet points for quick revision.
+
+5. Note 5 (page None)
+  Create flashcards for important dates, formulas, and figures for effective recall.
+
+6. Note 6 (page None)
+  Group similar topics together to make connections and enhance retention.
+
+7. Note 7 (page None)
+  Practice problem-solving skills with sample problems or exercises from the study guide.
+
+8. Note 8 (page None)
+  Utilize mnemonic devices to remember complex information more easily.
+
+9. Note 9 (page None)
+  Discuss difficult concepts with peers to gain different perspectives and insights.
+
+10. Note 10 (page None)
+  Set a revision schedule that allows for regular review sessions leading up to the exam.
+
 ```

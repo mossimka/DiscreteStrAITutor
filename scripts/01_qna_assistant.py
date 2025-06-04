@@ -1,47 +1,35 @@
 import openai
 from dotenv import load_dotenv
 import os
-import time
 
 # Load environment variables
 load_dotenv()
 client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# 1. Upload the file
+# 1. Create a vector store
+vector_store = client.vector_stores.create(name="My Vector Store")
+print("📦 Vector Store created. ID:", vector_store.id)
+
+# 2. Upload the PDF and attach to the vector store
 file = client.files.create(
     file=open("data/ChineseRemainderTheorem.pdf", "rb"),
     purpose="assistants"
 )
-print("📄 File uploaded. File ID:", file.id)
+client.vector_stores.files.create(
+    vector_store_id=vector_store.id,
+    file_id=file.id
+)
+print("📄 File uploaded and attached to vector store.")
 
-# 3. Create a Thread
-thread = client.beta.threads.create()
-
-# 4. Add a Message to the Thread
-client.beta.threads.messages.create(
-    thread_id=thread.id,
-    role="user",
-    content="Explain the Chinese Remainder Theorem"
+# 3. Query using the Responses API with file_search
+response = client.responses.create(
+    input="Explain the Chinese Remainder Theorem",
+    model="gpt-4o",  # or "gpt-4o-mini"
+    tools=[{
+        "type": "file_search",
+        "vector_store_ids": [vector_store.id],
+    }]
 )
 
-# 5. Run the Assistant on the Thread
-run = client.beta.threads.runs.create(
-    thread_id=thread.id,
-    assistant_id=os.getenv("ASSISTANT_ID")
-)
-
-# 6. Poll for the Run to complete
-print("⏳ Waiting for response...")
-while run.status not in ["completed", "failed"]:
-    time.sleep(1)
-    run = client.beta.threads.runs.retrieve(
-        thread_id=thread.id,
-        run_id=run.id
-    )
-
-# 7. Read the Assistant's response
 print("\n📘 Response:")
-messages = client.beta.threads.messages.list(thread_id=thread.id)
-for msg in messages.data:
-    if msg.role == "assistant":
-        print(msg.content[0].text.value) 
+print(response.output[1].content[0].text) 
